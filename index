@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Funciones Cuadráticas: Una Herramienta de Modelación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #e91e63, #9c27b0, #3f51b5);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.95);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .section h2 {
+            color: #e91e63;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            border-left: 4px solid #e91e63;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            color: #9c27b0;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .interactive-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .calculator {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #e91e63;
+            margin: 1rem 0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            color: #e91e63;
+            min-width: 100px;
+        }
+
+        .input-group input {
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            width: 80px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #e91e63, #9c27b0);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .graph-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            border-left: 5px solid #e91e63;
+        }
+
+        .formula {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+            border: 2px solid #e91e63;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid #e91e63;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .quiz {
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            border-color: #e91e63;
+        }
+        
+        .quiz-option.selected {
+            border-color: #3f51b5;
+            background: #e0e7ff;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724 !important;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24 !important;
+        }
+        
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.success {
+            background: #d4edda; color: #155724;
+        }
+        .result.partial {
+            background: #fff3cd; color: #856404;
+        }
+        .result.failure {
+            background: #f8d7da; color: #721c24;
+        }
+
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; 
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e91e63;
+            margin: 1rem auto; 
+        }
+
+        #graphCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .input-group input {
+                width: 100%;
+            }
+        }
+
+        .animation {
+            opacity: 0; 
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🔢 Las Funciones Cuadráticas</h1>
+        <p>Una Herramienta de Modelación Matemática</p>
+        <p><em>Educación Matemática - Segundo Nivel Educación Media</em></p>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="#introduccion">📚 Introducción</a></li>
+            <li><a href="#fundamentos">🧮 Fundamentos</a></li>
+            <li><a href="#calculadora">🔧 Calculadora</a></li>
+            <li><a href="#graficas">📊 Gráficas</a></li>
+            <li><a href="#ejemplos">💡 Ejemplos</a></li>
+            <li><a href="#aplicaciones">🚀 Aplicaciones</a></li>
+            <li><a href="#quiz">🎯 Quiz</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="introduccion" class="section animation">
+            <h2>📚 Introducción a las Funciones Cuadráticas</h2>
+            <p>Las funciones cuadráticas son una de las herramientas matemáticas más poderosas para modelar situaciones del mundo real. Desde el movimiento de proyectiles hasta la optimización de ganancias en empresas, estas funciones nos ayudan a entender y predecir comportamientos complejos.</p>
+            
+            <div class="interactive-box">
+                <h3>🎯 ¿Por qué son importantes?</h3>
+                <p>Las funciones cuadráticas aparecen constantemente en:</p>
+                <ul style="margin: 1rem 0; padding-left: 2rem;">
+                    <li><strong>Física:</strong> Movimiento parabólico, caída libre</li>
+                    <li><strong>Economía:</strong> Maximización de beneficios</li>
+                    <li><strong>Ingeniería:</strong> Diseño de arcos y puentes</li>
+                    <li><strong>Deportes:</strong> Trayectoria de balones</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>🌟 Ejemplo Real</h4>
+                <p>Imagina que lanzas una pelota al aire. La altura de la pelota en cada momento sigue una función cuadrática. ¡Vamos a explorar esto juntos!</p>
+            </div>
+        </section>
+
+        <section id="fundamentos" class="section animation">
+            <h2>🧮 Fundamentos Teóricos</h2>
+            
+            <h3>Forma General</h3>
+            <div class="formula">
+                $f(x) = ax^2 + bx + c$
+            </div>
+            <p>Donde <span class="highlight">a ≠ 0</span>, y los coeficientes tienen significados específicos:</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🅰️ Coeficiente 'a'</h4>
+                    <p><strong>Controla:</strong> La abertura y dirección de la parábola</p>
+                    <ul>
+                        <li>Si a > 0: parábola abre hacia arriba 🔺 (cóncava)</li>
+                        <li>Si a < 0: parábola abre hacia abajo 🔻 (convexa)</li>
+                        <li>|a| mayor: parábola más cerrada</li>
+                        <li>|a| menor: parábola más abierta</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>🅱️ Coeficiente 'b'</h4>
+                    <p><strong>Controla:</strong> La posición horizontal del vértice y la inclinación en el origen.</p>
+                    <p>El eje de simetría está en $x = -b/(2a)$</p>
+                </div>
+                
+                <div class="card">
+                    <h4>🆑 Coeficiente 'c'</h4>
+                    <p><strong>Controla:</strong> El punto de corte con el eje Y</p>
+                    <p>Cuando $x = 0$, $f(0) = c$. Es la ordenada al origen.</p>
+                </div>
+            </div>
+
+            <h3>Formas Alternativas</h3>
+            
+            <div class="card">
+                <h4>📐 Forma Vértice (Canónica)</h4>
+                <div class="formula">$f(x) = a(x - h)^2 + k$</div>
+                <p>Donde $(h, k)$ es el vértice de la parábola.</p>
+                <p>$h = -b/(2a)$, $k = f(h)$</p>
+            </div>
+
+            <div class="card">
+                <h4>🎯 Forma Factorizada</h4>
+                <div class="formula">$f(x) = a(x - r_1)(x - r_2)$</div>
+                <p>Donde $r_1$ y $r_2$ son las raíces (o ceros) de la función, es decir, los puntos donde la parábola corta el eje X.</p>
+                <p>Solo es posible si la función tiene raíces reales.</p>
+            </div>
+        </section>
+
+        <section id="calculadora" class="section animation">
+            <h2>🔧 Calculadora Interactiva</h2>
+            <p>Experimenta con los coeficientes y observa cómo cambia la función cuadrática:</p>
+            
+            <div class="calculator">
+                <h3>🎛️ Controles de la Función: $f(x) = ax^2 + bx + c$</h3>
+                <div class="input-group">
+                    <label for="coefA">Coeficiente a:</label>
+                    <input type="number" id="coefA" value="1" step="0.1">
+                    <span>$f(x) = \mathbf{\text{<span id="displayA">1</span>}}x^2 +$</span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="coefB">Coeficiente b:</label>
+                    <input type="number" id="coefB" value="0" step="0.1">
+                    <span>$\mathbf{\text{<span id="displayB">0</span>}}x +$</span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="coefC">Coeficiente c:</label>
+                    <input type="number" id="coefC" value="0" step="0.1">
+                    <span>$\mathbf{\text{<span id="displayC">0</span>}}$</span>
+                </div>
+                
+                <button class="btn" onclick="updateFunction()">🔄 Actualizar Función y Gráfica</button>
+                <button class="btn" onclick="resetFunction()">↩️ Restablecer (a=1, b=0, c=0)</button>
+                
+                <div id="functionInfo" style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 10px; border-left: 5px solid #3f51b5;">
+                    <h4>📊 Información de la Función:</h4>
+                    <p id="vertexInfo">Vértice: (0, 0)</p>
+                    <p id="axisInfo">Eje de simetría: $x = 0$</p>
+                    <p id="yInterceptInfo">Intersección Eje Y: $(0, 0)$</p>
+                    <p id="discriminantInfo">Discriminante ($\Delta$): 0</p>
+                    <p id="rootsInfo">Raíces (Cortes Eje X): $x = 0$</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="graficas" class="section animation">
+            <h2>📊 Visualización Gráfica</h2>
+            <p>La gráfica se actualiza automáticamente cuando cambias los coeficientes y presionas "Actualizar":</p>
+            
+            <div class="graph-container">
+                <div class="canvas-container">
+                    <canvas id="graphCanvas"></canvas> 
+                </div>
+            </div>
+            
+            <div class="interactive-box">
+                <h3>🎨 Características de la Gráfica</h3>
+                <div class="grid">
+                    <div>
+                        <h4>🔺 Parábola que abre hacia arriba (a > 0)</h4>
+                        <ul>
+                            <li>Tiene un valor mínimo en el vértice.</li>
+                            <li>Es cóncava hacia arriba.</li>
+                            <li>Dominio: $\mathbb{R}$ (todos los números reales).</li>
+                            <li>Recorrido: $[k, +\infty)$, donde $k$ es la coordenada $y$ del vértice.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🔻 Parábola que abre hacia abajo (a < 0)</h4>
+                        <ul>
+                            <li>Tiene un valor máximo en el vértice.</li>
+                            <li>Es cóncava hacia abajo (o convexa).</li>
+                            <li>Dominio: $\mathbb{R}$ (todos los números reales).</li>
+                            <li>Recorrido: $(-\infty, k]$, donde $k$ es la coordenada $y$ del vértice.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ejemplos" class="section animation">
+            <h2>💡 Ejemplos Resueltos</h2>
+            
+            <div class="example-box">
+                <h3>🏀 Ejemplo 1: Lanzamiento de Baloncesto</h3>
+                <p><strong>Problema:</strong> Un jugador lanza un balón desde una altura de 2 metros. La trayectoria sigue la función $h(t) = -5t^2 + 10t + 2$, donde $h$ es la altura en metros y $t$ es el tiempo en segundos.</p>
+                
+                <div style="margin: 1rem 0;">
+                    <h4>🔍 Análisis Inicial:</h4>
+                    <ul>
+                        <li><strong>$a = -5$:</strong> La parábola abre hacia abajo (el balón subirá y luego bajará).</li>
+                        <li><strong>$b = 10$:</strong> Relacionado con la velocidad inicial y el ángulo.</li>
+                        <li><strong>$c = 2$:</strong> Altura inicial (cuando $t=0$, $h(0)=2$ metros).</li>
+                    </ul>
+                </div>
+                
+                <button class="btn" onclick="solveBasketballExample()">⚡ Resolver Ejemplo</button>
+                <div id="basketballSolution" style="display: none; margin-top: 1rem; padding: 1rem; background: #f0f8ff; border-radius: 10px; border-left: 4px solid #667eea;">
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>💰 Ejemplo 2: Maximización de Beneficios</h3>
+                <p><strong>Problema:</strong> Una empresa tiene beneficios (en miles de pesos) dados por $B(x) = -2x^2 + 120x - 1000$, donde $x$ es el número de unidades producidas (en cientos).</p>
+                 <div style="margin: 1rem 0;">
+                    <h4>🔍 Análisis Inicial:</h4>
+                    <ul>
+                        <li><strong>$a = -2$:</strong> La parábola abre hacia abajo (existe un beneficio máximo).</li>
+                        <li><strong>$b = 120$:</strong> Factor que influye en cuántas unidades maximizan el beneficio.</li>
+                        <li><strong>$c = -1000$:</strong> Beneficio (o pérdida) si no se produce nada.</li>
+                    </ul>
+                </div>
+                <button class="btn" onclick="solveProfitExample()">💸 Calcular Beneficio Máximo</button>
+                <div id="profitSolution" style="display: none; margin-top: 1rem; padding: 1rem; background: #f0fff0; border-radius: 10px; border-left: 4px solid #84fab0;">
+                </div>
+            </div>
+        </section>
+
+        <section id="aplicaciones" class="section animation">
+            <h2>🚀 Aplicaciones en el Mundo Real</h2>
+            
+            <div class="grid">
+                <div class="card pulse">
+                    <h3>🏗️ Arquitectura e Ingeniería Civil</h3>
+                    <p>Los arcos parabólicos distribuyen el peso de manera eficiente, siendo fundamentales en puentes (ej. Golden Gate), techos y túneles.</p>
+                    <div class="interactive-box" style="margin-top: 1rem;">
+                        <p><strong>Ejemplo:</strong> El Arco Gateway en St. Louis (EE.UU.) tiene forma de catenaria invertida, que es similar a una parábola para ciertas proporciones.</p>
+                    </div>
+                </div>
+                
+                <div class="card pulse">
+                    <h3>📡 Comunicaciones y Óptica</h3>
+                    <p>Las antenas parabólicas y los reflectores de telescopios concentran señales u ondas de luz en un punto focal debido a la propiedad reflectante de las parábolas.</p>
+                    <div class="interactive-box" style="margin-top: 1rem;">
+                        <p><strong>Principio:</strong> Todas las ondas paralelas al eje de simetría de la parábola se reflejan hacia su foco.</p>
+                    </div>
+                </div>
+                
+                <div class="card pulse">
+                    <h3>🚗 Ingeniería Automotriz</h3>
+                    <p>Los faros de los automóviles utilizan reflectores parabólicos para dirigir la luz de la ampolleta hacia adelante de manera eficiente.</p>
+                </div>
+                
+                <div class="card pulse">
+                    <h3>📊 Economía y Negocios</h3>
+                    <p>Modelar costos, ingresos y beneficios para encontrar puntos de maximización o minimización. Por ejemplo, determinar el precio óptimo de un producto.</p>
+                </div>
+            </div>
+
+            <div class="interactive-box">
+                <h3>🧪 Simulador Conceptual de Aplicación</h3>
+                <p>Selecciona una aplicación para ver una descripción de su modelo matemático general:</p>
+                <select id="applicationSelect" onchange="showApplication()" style="padding: 0.5rem; margin: 1rem 0; border-radius: 5px; border: 2px solid white; background-color: #764ba2; color: white; font-size: 1rem;">
+                    <option value="">Selecciona una aplicación...</option>
+                    <option value="projectile">Movimiento de Proyectil (sin roce)</option>
+                    <option value="optimization">Optimización de Recursos</option>
+                    <option value="bridge">Diseño Simplificado de Arco de Puente</option>
+                </select>
+                <div id="applicationDemo" style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; margin-top:1rem;"></div>
+            </div>
+        </section>
+
+        <section id="quiz" class="section animation">
+            <h2>🎯 Quiz Interactivo</h2>
+            <div class="quiz">
+                <h3>🧠 Pon a Prueba tus Conocimientos</h3>
+                
+                <div class="quiz-question" data-question-id="1">
+                    <h4>Pregunta 1: ¿Qué determina si una parábola $f(x) = ax^2+bx+c$ abre hacia arriba o hacia abajo?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectAnswer(this, 1, 'B')">A) El signo del coeficiente $b$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 1, 'B')">B) El signo del coeficiente $a$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 1, 'B')">C) El valor del coeficiente $c$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 1, 'B')">D) El valor del discriminante</div>
+                    </div>
+                    <p class="feedback" style="display:none; margin-top: 0.5rem; font-weight: bold;"></p>
+                </div>
+
+                <div class="quiz-question" data-question-id="2">
+                    <h4>Pregunta 2: Para la función $f(x) = 2x^2 - 8x + 6$, ¿cuál es el vértice $(h, k)$?</h4>
+                     <p><small>Recuerda: $h = -b/(2a)$, $k = f(h)$</small></p>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectAnswer(this, 2, 'B')">A) $(4, 6)$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 2, 'B')">B) $(2, -2)$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 2, 'B')">C) $(-2, 30)$</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 2, 'B')">D) $(2, 2)$</div>
+                    </div>
+                     <p class="feedback" style="display:none; margin-top: 0.5rem; font-weight: bold;"></p>
+                </div>
+
+                <div class="quiz-question" data-question-id="3">
+                    <h4>Pregunta 3: ¿Cuántas raíces reales (cortes con el eje X) tiene una función cuadrática si su discriminante ($\Delta = b^2 - 4ac$) es negativo?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectAnswer(this, 3, 'A')">A) Ninguna</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 3, 'A')">B) Una (raíz doble)</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 3, 'A')">C) Dos distintas</div>
+                        <div class="quiz-option" onclick="selectAnswer(this, 3, 'A')">D) Infinitas</div>
+                    </div>
+                     <p class="feedback" style="display:none; margin-top: 0.5rem; font-weight: bold;"></p>
+                </div>
+                
+                <button class="btn" onclick="showQuizResult()" style="margin-top: 1.5rem;">📈 Mostrar Resultado del Quiz</button>
+                <div id="quizResult" class="result" style="display: none;"></div>
+                <button class="btn" onclick="resetQuiz()">🔄 Reiniciar Quiz</button>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; <span id="currentYear"></span> - Funciones Cuadráticas Educativas</p>
+        <p>Inspirado en material del Ministerio de Educación de Chile</p>
+        <p>Desarrollado con ❤️ para el aprendizaje de las matemáticas</p>
+    </footer>
+
+    <script>
+        // Variables globales
+        let currentA = 1, currentB = 0, currentC = 0;
+        let canvas, ctx;
+        const quizAnswers = {}; 
+        const totalQuestions = 3; 
+
+        // Inicialización
+        window.onload = function() {
+            console.log("Ventana cargada. Iniciando script..."); // DIAGNÓSTICO
+            canvas = document.getElementById('graphCanvas');
+            if (!canvas) {
+                console.error("Error: No se encontró el elemento canvas con ID 'graphCanvas'.");
+                return;
+            }
+            
+            const canvasContainer = document.querySelector('.canvas-container');
+            if (!canvasContainer) {
+                console.error("Error: No se encontró el div 'canvas-container'.");
+                return;
+            }
+            canvas.width = canvasContainer.clientWidth;
+            canvas.height = canvasContainer.clientHeight;
+            
+            ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error("Error: No se pudo obtener el contexto 2D del canvas.");
+                return;
+            }
+            console.log("Canvas y contexto inicializados. Dimensiones:", canvas.width, "x", canvas.height); // DIAGNÓSTICO
+            
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            updateCoefficientsFromInput(); 
+            drawGraph();
+            updateFunctionInfo();
+            
+            document.querySelectorAll('.animation').forEach((el, index) => {
+                el.style.opacity = '0'; 
+                el.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + index * 150); 
+            });
+            renderMathInHTML(); 
+            console.log("Inicialización completa."); // DIAGNÓSTICO
+        };
+        
+        function renderMathInHTML() {
+            // Si usas MathJax, descomenta las líneas de MathJax en el HTML (al final del body).
+            if (typeof MathJax !== 'undefined') {
+                console.log("MathJax detectado. Procesando expresiones..."); // DIAGNÓSTICO
+                MathJax.typesetPromise();
+            } else {
+                console.log("MathJax no detectado. Se omitirá el renderizado avanzado de LaTeX."); // DIAGNÓSTICO
+                // La siguiente línea es una forma simple de reemplazar x^2 por x²
+                // Podría ser más robusta, pero la dejamos así por simplicidad o la comentamos si causa problemas.
+                // document.body.innerHTML = document.body.innerHTML.replace(/(\w)\^2/g, '$1²');
+                // POR PRECAUCIÓN: Comentamos la línea anterior. Si necesitas 'x²', es mejor usar MathJax
+                // o un método más seguro para modificar el DOM, o simplemente escribir 'x²' directamente en el HTML.
+            }
+        }
+
+        function updateCoefficientsFromInput() {
+            console.log("Leyendo coeficientes de los inputs..."); // DIAGNÓSTICO
+            currentA = parseFloat(document.getElementById('coefA').value);
+            currentB = parseFloat(document.getElementById('coefB').value);
+            currentC = parseFloat(document.getElementById('coefC').value);
+
+            if (isNaN(currentA)) currentA = 1; 
+            if (isNaN(currentB)) currentB = 0;
+            if (isNaN(currentC)) currentC = 0;
+
+            if (currentA === 0) {
+                currentA = 0.01; 
+                document.getElementById('coefA').value = currentA;
+                alert("El coeficiente 'a' no puede ser cero en una función cuadrática. Se ha ajustado a 0.01.");
+            }
+            
+            document.getElementById('displayA').textContent = currentA;
+            document.getElementById('displayB').textContent = currentB;
+            document.getElementById('displayC').textContent = currentC;
+            console.log("Coeficientes actualizados a: a=", currentA, "b=", currentB, "c=", currentC); // DIAGNÓSTICO
+        }
+
+        function updateFunction() {
+            console.log("Botón 'Actualizar Función' presionado."); // DIAGNÓSTICO
+            updateCoefficientsFromInput();
+            drawGraph();
+            updateFunctionInfo();
+            
+            const calculatorSection = document.getElementById('calculadora');
+            calculatorSection.style.transform = 'scale(1.01)';
+            setTimeout(() => {
+                calculatorSection.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetFunction() {
+            console.log("Botón 'Restablecer Función' presionado."); // DIAGNÓSTICO
+            document.getElementById('coefA').value = 1;
+            document.getElementById('coefB').value = 0;
+            document.getElementById('coefC').value = 0;
+            updateFunction(); 
+        }
+
+        function drawGraph() {
+            console.log("Iniciando drawGraph con a=", currentA, "b=", currentB, "c=", currentC); // DIAGNÓSTICO
+            if (!ctx) {
+                console.error("Contexto ctx no disponible en drawGraph.");
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const originX = canvas.width / 2;
+            const originY = canvas.height / 2;
+            
+            let scaleX = 20; 
+            let scaleY = 20;
+
+            if (Math.abs(currentA) > 5) scaleY = 5;
+            else if (Math.abs(currentA) < 0.1 && Math.abs(currentA) > 0) scaleY = Math.min(100, 50 / Math.abs(currentA)); // Evitar escala infinita si A es muy pequeño
+            else if (currentA === 0) scaleY = 20; // Caso lineal, aunque no debería ser cuadrática
+
+            if (Math.abs(currentC) > 20 && originY > 0) { // Añadido originY > 0
+                scaleY = Math.max(5, originY / (Math.abs(currentC) * 1.1 + 1)); // Añadido +1 para evitar división por cero si c es enorme y originY pequeño
+            }
+            if (canvas.width < 300) scaleX = 10; // Ajuste para canvas muy pequeños
+
+            console.log("Escalas para el gráfico: scaleX=", scaleX, "scaleY=", scaleY); // DIAGNÓSTICO
+
+            drawAxes(originX, originY, scaleX, scaleY);
+            drawParabola(originX, originY, scaleX, scaleY);
+            
+            const props = calculateFunctionProperties(currentA, currentB, currentC); // Recalcular por si acaso
+            if (props.vx !== null && props.vy !== null) {
+                drawPoint(originX + props.vx * scaleX, originY - props.vy * scaleY, '#e91e63', 'V'); 
+            }
+            if (props.roots && props.roots.length > 0) { // Asegurarse que roots existe
+                props.roots.forEach(rootVal => { // Cambiado 'root' a 'rootVal' para claridad
+                    // Verificar si rootVal es un número (raíz real) antes de dibujar
+                    if (typeof rootVal === 'number') {
+                         drawPoint(originX + rootVal * scaleX, originY, '#3f51b5', 'R'); 
+                    } else if (typeof rootVal === 'string' && rootVal.includes('=')){
+                        // Intenta parsear si es un string como "x = 3.00"
+                        try {
+                            const numVal = parseFloat(rootVal.split('=')[1].trim());
+                            if(!isNaN(numVal)) drawPoint(originX + numVal * scaleX, originY, '#3f51b5', 'R');
+                        } catch (e) { /* no hacer nada si no se puede parsear */ }
+                    }
+                });
+            }
+            console.log("Gráfico dibujado."); // DIAGNÓSTICO
+        }
+
+        function drawAxes(ox, oy, scaleX, scaleY) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#ccc'; 
+            ctx.lineWidth = 1;
+
+            ctx.moveTo(0, oy);
+            ctx.lineTo(canvas.width, oy);
+            ctx.moveTo(ox, 0);
+            ctx.lineTo(ox, canvas.height);
+            ctx.stroke();
+
+            ctx.fillStyle = '#333';
+            ctx.font = '10px Arial';
+            const xTickStep = Math.max(1, Math.floor(50 / scaleX)); // Mostrar menos ticks si la escala es pequeña
+            for (let i = -Math.floor(ox/scaleX); i <= Math.floor((canvas.width-ox)/scaleX); i++) {
+                if (i === 0) continue;
+                const xPos = ox + i * scaleX;
+                ctx.moveTo(xPos, oy - 5);
+                ctx.lineTo(xPos, oy + 5);
+                if (i % xTickStep === 0) ctx.fillText(i, xPos - (i<0?10:5) , oy + 15);
+            }
+            const yTickStep = Math.max(1, Math.floor(50 / scaleY));
+            for (let i = -Math.floor((canvas.height-oy)/scaleY); i <= Math.floor(oy/scaleY); i++) {
+                 if (i === 0) continue;
+                const yPos = oy - i * scaleY; 
+                ctx.moveTo(ox - 5, yPos);
+                ctx.lineTo(ox + 5, yPos);
+                if (i % yTickStep === 0) ctx.fillText(i, ox + 10, yPos + 3);
+            }
+            ctx.stroke();
+        }
+
+        function drawParabola(ox, oy, scaleX, scaleY) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#e91e63'; 
+            ctx.lineWidth = 2;
+
+            let firstPoint = true;
+            for (let px = 0; px < canvas.width; px++) { 
+                const mathX = (px - ox) / scaleX; 
+                const mathY = currentA * mathX * mathX + currentB * mathX + currentC;
+                const py = oy - mathY * scaleY; 
+
+                if (py > canvas.height + 50 || py < -50) { // Optimización simple para no dibujar muy fuera de pantalla
+                    if (!firstPoint) ctx.stroke(); // Terminar el trazo actual si se sale mucho
+                    firstPoint = true; // Forzar moveTo para el siguiente punto visible
+                    continue;
+                }
+
+                if (firstPoint) {
+                    ctx.moveTo(px, py);
+                    firstPoint = false;
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            if (!firstPoint) ctx.stroke(); // Asegurarse que el último trazo se dibuje
+        }
+        
+        function drawPoint(canvasX, canvasY, color, label = '') {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
+            ctx.fill();
+            if (label) {
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText(label, canvasX + 7, canvasY + 4);
+            }
+        }
+
+        function calculateFunctionProperties(a, b, c) {
+            if (a === 0 && b === 0) { // Caso constante f(x) = c
+                 return { vx: null, vy: null, axis: "No aplica (función constante)", discriminant: null, roots: ["No aplica (función constante)"], yInt: c, isConstant: true };
+            }
+            if (a === 0) { // Caso lineal f(x) = bx + c
+                const root = (b !== 0) ? (-c / b) : (c === 0 ? 0 : "No hay raíz (horizontal y no en y=0)");
+                let rootsArray = [];
+                if (typeof root === 'number') rootsArray.push(root);
+                else if (root !== "No hay raíz (horizontal y no en y=0)") rootsArray.push(`x = ${root.toFixed(2)}`); // Caso c=0, b=0
+                else rootsArray.push(root);
+
+
+                return { vx: null, vy: null, axis: "No aplica (función lineal)", discriminant: null, roots: rootsArray, yInt: c, isLinear: true };
+            }
+
+            const vx = -b / (2 * a);
+            const vy = a * vx * vx + b * vx + c;
+            const axis = `x = ${vx.toFixed(2)}`;
+            const discriminant = b * b - 4 * a * c;
+            let roots = [];
+            let numericRoots = []; // Para dibujar
+
+            if (discriminant > 0) {
+                const r1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const r2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                roots = [`x₁ = ${r1.toFixed(2)}`, `x₂ = ${r2.toFixed(2)}`];
+                numericRoots = [r1, r2];
+            } else if (discriminant === 0) {
+                const r = -b / (2 * a);
+                roots = [`x = ${r.toFixed(2)} (raíz doble)`];
+                numericRoots = [r];
+            } else {
+                const realPart = -b / (2 * a);
+                const imagPart = Math.sqrt(-discriminant) / (2 * a);
+                roots = [
+                    `x₁ = ${realPart.toFixed(2)} + ${imagPart.toFixed(2)}i`,
+                    `x₂ = ${realPart.toFixed(2)} - ${imagPart.toFixed(2)}i`
+                ];
+            }
+             return { vx, vy, axis, discriminant, roots: numericRoots, displayRoots: roots, yInt: c }; // Devolvemos numericRoots para dibujar y displayRoots para mostrar
+        }
+
+        function updateFunctionInfo() {
+            const props = calculateFunctionProperties(currentA, currentB, currentC);
+
+            if (props.isConstant) {
+                document.getElementById('vertexInfo').innerHTML = `Vértice (h, k): No aplica (función constante)`;
+                document.getElementById('axisInfo').innerHTML = `Eje de simetría: No aplica (función constante)`;
+                document.getElementById('discriminantInfo').innerHTML = `Discriminante ($\Delta$): No aplica`;
+                document.getElementById('rootsInfo').innerHTML = `Raíces: No aplica (función constante y = ${props.yInt.toFixed(2)})`;
+            } else if (props.isLinear) {
+                 document.getElementById('vertexInfo').innerHTML = `Vértice (h, k): No aplica (función lineal)`;
+                 document.getElementById('axisInfo').innerHTML = `Eje de simetría: No aplica (función lineal)`;
+                 document.getElementById('discriminantInfo').innerHTML = `Discriminante ($\Delta$): No aplica`;
+                 document.getElementById('rootsInfo').innerHTML = `Raíz (Corte Eje X): ${props.roots.length > 0 ? (typeof props.roots[0] === 'number' ? `x = ${props.roots[0].toFixed(2)}` : props.roots[0]) : 'Ninguna (si es horizontal y no en y=0)'}`;
+            } else {
+                document.getElementById('vertexInfo').innerHTML = `Vértice (h, k): (${props.vx !== null ? props.vx.toFixed(2) : 'N/A'}, ${props.vy !== null ? props.vy.toFixed(2) : 'N/A'})`;
+                document.getElementById('axisInfo').innerHTML = `Eje de simetría: ${props.axis !== null ? props.axis : 'N/A'}`;
+                document.getElementById('discriminantInfo').innerHTML = `Discriminante ($\Delta = b^2 - 4ac$): ${props.discriminant !== null ? props.discriminant.toFixed(2) : 'N/A'}`;
+                document.getElementById('rootsInfo').innerHTML = `Raíces (Cortes Eje X): ${props.displayRoots.join(', ')}`;
+            }
+            document.getElementById('yInterceptInfo').innerHTML = `Intersección Eje Y: (0, ${props.yInt.toFixed(2)})`;
+        }
+        
+        function solveBasketballExample() {
+            const a = -5, b = 10, c = 2;
+            const solDiv = document.getElementById('basketballSolution');
+            
+            const tVertex = -b / (2 * a); 
+            const hMax = a * tVertex * tVertex + b * tVertex + c; 
+            
+            const discriminant = b*b - 4*a*c;
+            let tGround = "No toca el suelo (según este modelo simplificado si la raíz no es positiva y real)";
+            if (discriminant >= 0) {
+                const t1 = (-b + Math.sqrt(discriminant)) / (2*a);
+                const t2 = (-b - Math.sqrt(discriminant)) / (2*a);
+                const validTimes = [t1, t2].filter(t => t > 1e-9); // Considerar tiempos positivos
+                if (validTimes.length > 0) {
+                    tGround = Math.max(...validTimes).toFixed(2) + " segundos";
+                }
+            }
+
+            solDiv.innerHTML = `
+                <h4>Resultados del Lanzamiento:</h4>
+                <p>Función: $h(t) = -5t^2 + 10t + 2$</p>
+                <ul>
+                    <li><strong>Altura inicial:</strong> ${c} metros (en $t=0$ s)</li>
+                    <li><strong>Tiempo para alcanzar altura máxima:</strong> ${tVertex.toFixed(2)} segundos</li>
+                    <li><strong>Altura máxima alcanzada:</strong> ${hMax.toFixed(2)} metros</li>
+                    <li><strong>Tiempo para que el balón toque el suelo:</strong> ${tGround}</li>
+                </ul>
+                <p><small>Nota: Estos cálculos asumen que el movimiento comienza en $t=0$ y no hay otros factores como resistencia del aire.</small></p>
+            `;
+            solDiv.style.display = 'block';
+            renderMathInHTML();
+        }
+
+        function solveProfitExample() {
+            const a = -2, b = 120, c = -1000;
+            const solDiv = document.getElementById('profitSolution');
+
+            const xVertex = -b / (2 * a); 
+            const bMax = a * xVertex * xVertex + b * xVertex + c; 
+
+            solDiv.innerHTML = `
+                <h4>Resultados de Maximización de Beneficios:</h4>
+                <p>Función de Beneficio: $B(x) = -2x^2 + 120x - 1000$</p>
+                <ul>
+                    <li><strong>Unidades (en cientos) para maximizar beneficio:</strong> ${xVertex.toFixed(2)} (es decir, ${xVertex * 100} unidades)</li>
+                    <li><strong>Beneficio máximo (en miles de pesos):</strong> ${bMax.toFixed(2)} (es decir, $${(bMax * 1000).toLocaleString('es-CL')} pesos)</li>
+                    <li><strong>Beneficio si no se produce nada (x=0):</strong> ${c} (miles de pesos), lo que indica una pérdida de $${(-c * 1000).toLocaleString('es-CL')}.</li>
+                </ul>
+                <p><small>Nota: 'x' está en cientos de unidades y 'B(x)' en miles de pesos.</small></p>
+            `;
+            solDiv.style.display = 'block';
+            renderMathInHTML();
+        }
+
+        function showApplication() {
+            const selection = document.getElementById('applicationSelect').value;
+            const demoDiv = document.getElementById('applicationDemo');
+            let content = "";
+
+            switch(selection) {
+                case "projectile":
+                    content = `<h4>🚀 Movimiento de Proyectil (simplificado)</h4>
+                               <p>La altura $h(t)$ de un proyectil lanzado verticalmente (sin resistencia del aire) se modela con:</p>
+                               <p class="formula" style="color: #333;">$h(t) = -\\frac{1}{2}gt^2 + v_0t + h_0$</p>
+                               <p>Donde:</p>
+                               <ul>
+                                   <li>$g$: aceleración debido a la gravedad (aprox. 9.8 m/s²)</li>
+                                   <li>$v_0$: velocidad inicial</li>
+                                   <li>$h_0$: altura inicial</li>
+                                   <li>$t$: tiempo</li>
+                               </ul>
+                               <p>Esto es una función cuadrática con $a = -g/2$, $b = v_0$, $c = h_0$.</p>`;
+                    break;
+                case "optimization":
+                    content = `<h4>💰 Optimización de Recursos</h4>
+                               <p>Muchas situaciones de optimización (maximizar ganancias, minimizar costos) pueden modelarse con funciones cuadráticas.</p>
+                               <p>Por ejemplo, el ingreso $I(p)$ al vender un producto a un precio $p$ podría ser $I(p) = -kp^2 + mp + n$, donde $k, m, n$ dependen de la demanda y costos.</p>
+                               <p>El vértice de la parábola indica el precio óptimo para maximizar el ingreso (si $a < 0$).</p>`;
+                    break;
+                case "bridge":
+                    content = `<h4>🌉 Diseño Simplificado de Arco de Puente</h4>
+                               <p>La forma de un arco de puente colgante (el cable principal) se asemeja a una parábola si el peso del tablero está uniformemente distribuido.</p>
+                               <p class="formula" style="color: #333;">$y = ax^2 + c$</p>
+                               <p>Donde $y$ es la altura del cable en un punto $x$ horizontal desde el centro. El coeficiente '$a$' depende de la tensión y el peso, y '$c$' es la altura mínima del cable.</p>
+                               <p>(Nota: Estrictamente, un cable colgando por su propio peso forma una catenaria, pero la parábola es una buena aproximación para puentes).</p>`;
+                    break;
+                default:
+                    content = "<p>Selecciona una aplicación para ver su descripción.</p>";
+            }
+            demoDiv.innerHTML = content;
+            renderMathInHTML();
+        }
+
+        function selectAnswer(optionElement, questionId, correctAnswerLetter) {
+            console.log(`Quiz: Pregunta ${questionId}, opción seleccionada: ${optionElement.textContent.charAt(0)}, respuesta correcta: ${correctAnswerLetter}`); // DIAGNÓSTICO
+            const questionDiv = optionElement.closest('.quiz-question');
+            const feedbackP = questionDiv.querySelector('.feedback');
+            const options = questionDiv.querySelectorAll('.quiz-option');
+            
+            if (quizAnswers[questionId] && quizAnswers[questionId].answered) {
+                 console.log("Pregunta ya respondida."); // DIAGNÓSTICO
+                 return;
+            }
+
+            const selectedLetter = optionElement.textContent.charAt(0); 
+            const isCorrect = (selectedLetter === correctAnswerLetter);
+
+            quizAnswers[questionId] = {
+                selected: selectedLetter,
+                correct: correctAnswerLetter,
+                isCorrect: isCorrect,
+                answered: true
+            };
+
+            options.forEach(opt => {
+                opt.classList.add('disabled'); 
+                const optLetter = opt.textContent.charAt(0);
+                if (optLetter === correctAnswerLetter) {
+                    opt.classList.add('correct');
+                } else if (opt === optionElement && !isCorrect) {
+                     opt.classList.add('incorrect');
+                }
+                if (opt === optionElement) {
+                    opt.classList.add('selected');
+                }
+            });
+
+            if (isCorrect) {
+                feedbackP.textContent = "¡Correcto! 🎉";
+                feedbackP.style.color = '#28a745';
+            } else {
+                feedbackP.textContent = `Incorrecto. La respuesta correcta era la ${correctAnswerLetter}.`;
+                feedbackP.style.color = '#dc3545';
+            }
+            feedbackP.style.display = 'block';
+        }
+        
+        function showQuizResult() {
+            console.log("Mostrando resultado del quiz."); // DIAGNÓSTICO
+            let correctCount = 0;
+            let answeredCount = 0;
+            for (const qId in quizAnswers) {
+                if (quizAnswers[qId].answered) {
+                    answeredCount++;
+                    if (quizAnswers[qId].isCorrect) {
+                        correctCount++;
+                    }
+                }
+            }
+
+            const resultDiv = document.getElementById('quizResult');
+            if (answeredCount < totalQuestions) {
+                 resultDiv.innerHTML = `Por favor, responde todas las preguntas antes de ver el resultado. Has respondido ${answeredCount} de ${totalQuestions}.`;
+                 resultDiv.className = 'result partial';
+                 resultDiv.style.display = 'block';
+                 return;
+            }
+            
+            let message = `Has respondido ${correctCount} de ${totalQuestions} preguntas correctamente.`;
+            resultDiv.className = 'result'; 
+            if (correctCount === totalQuestions) {
+                message += " ¡Excelente! Eres un experto en funciones cuadráticas. 🥳";
+                resultDiv.classList.add('success');
+            } else if (correctCount >= Math.floor(totalQuestions / 2)) {
+                message += " ¡Buen trabajo! Sigue practicando. 👍";
+                 resultDiv.classList.add('partial');
+            } else {
+                message += " Necesitas repasar un poco más. ¡No te rindas! 📚";
+                 resultDiv.classList.add('failure');
+            }
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+        }
+
+        function resetQuiz() {
+            console.log("Reiniciando quiz."); // DIAGNÓSTICO
+            document.querySelectorAll('.quiz-question').forEach(qDiv => {
+                qDiv.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+                });
+                const feedbackP = qDiv.querySelector('.feedback');
+                if(feedbackP) feedbackP.style.display = 'none';
+            });
+
+            for (const key in quizAnswers) {
+                delete quizAnswers[key];
+            }
+            
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('quizResult').className = 'result'; 
+        }
+        
+        window.addEventListener('resize', () => {
+            console.log("Ventana redimensionada. Ajustando canvas..."); // DIAGNÓSTICO
+            if (canvas && canvasContainer) { // Asegurarse que existen
+                canvas.width = canvasContainer.clientWidth;
+                canvas.height = canvasContainer.clientHeight;
+                console.log("Nuevas dimensiones del canvas:", canvas.width, "x", canvas.height); // DIAGNÓSTICO
+                drawGraph(); 
+            }
+        });
+
+    </script>
+    </body>
+</html>
